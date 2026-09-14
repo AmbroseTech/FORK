@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { BalanceChart } from '@/components/BalanceChart';
 import { ScenarioCard } from '@/components/ScenarioCard';
@@ -8,6 +8,7 @@ import { Body, Chip, Code, CodeButton, Disclaimer, GlassCard, SectionLabel, Titl
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { useDecisionsStore } from '@/features/decisions/store';
 import { resolveContext } from '@/features/simulation/engine';
+import { shareText } from '@/features/simulation/share';
 import { labelFor } from '@/features/simulation/whatIf';
 import { useSimulationStore } from '@/features/simulation/store';
 import { useHaptics } from '@/hooks/useHaptics';
@@ -22,7 +23,7 @@ export default function FuturesScreen() {
   const forks = useDecisionsStore((s) => s.forks);
   const save = useDecisionsStore((s) => s.save);
   const { limits } = useSubscription();
-  const { success } = useHaptics();
+  const { success, tap } = useHaptics();
   const [view, setView] = useState<'cards' | 'compare'>('cards');
 
   const existing = useMemo(() => forks.find((f) => f.simulation.id === sim?.id), [forks, sim?.id]);
@@ -48,6 +49,11 @@ export default function FuturesScreen() {
     router.push({ pathname: '/fork/[id]', params: { id: fork.id } });
   };
 
+  const onShare = () => {
+    tap();
+    Share.share({ message: shareText(sim) }).catch(() => undefined);
+  };
+
   return (
     <Screen
       footer={
@@ -61,7 +67,12 @@ export default function FuturesScreen() {
         <Pressable onPress={() => router.replace('/')} hitSlop={12} accessibilityRole="button" accessibilityLabel="Home">
           <Code color={colors.textMuted}>{'← home'}</Code>
         </Pressable>
-        <Code color={colors.textDim} size={11}>{sim.source === 'groq' ? 'groq · live' : 'demo · seeded'}</Code>
+        <View style={styles.metaRow}>
+          <Code color={colors.textDim} size={11}>{sim.source === 'groq' ? 'groq · live' : 'demo · seeded'}</Code>
+          <Pressable onPress={onShare} hitSlop={12} accessibilityRole="button" accessibilityLabel="Share futures">
+            <Code color={colors.accent} size={12}>{'share()'}</Code>
+          </Pressable>
+        </View>
       </View>
 
       <View>
