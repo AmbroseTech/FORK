@@ -16,7 +16,7 @@ export function shareText(sim: Simulation): string {
     }),
     '',
     rec ? `${sim.source === 'groq' ? 'AI' : 'Rule-based'} pick: ${rec.title}` : '',
-    sim.recommendation.summary,
+    sim.recommendation.take,
     '',
     'FORK explores possible scenarios. It does not predict the future.',
     'https://github.com/AmbroseTech/FORK',
