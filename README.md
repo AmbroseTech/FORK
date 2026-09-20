@@ -84,8 +84,8 @@ insights, and server-side usage limits.
 | Plan   | Price            | Simulations                        | Extras                          |
 | ------ | ---------------- | ---------------------------------- | ------------------------------- |
 | Free   | UGX 0            | 5 introductory trials, then 3/day  | Local what-if presets           |
-| Weekly | UGX 3,000 / week | Unlimited                          | Custom AI what-ifs, AI insights |
-| Pro    | configurable     | Unlimited                          | Everything in Weekly + priority |
+| Weekly | UGX 3,000 / week | 30 / day                           | Custom AI what-ifs, AI insights |
+| Pro    | configurable     | 60 / day                           | Everything in Weekly + priority |
 
 ## Payments
 

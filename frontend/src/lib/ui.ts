@@ -1,3 +1,4 @@
+import { create } from 'zustand';
 import { api } from './api';
 import type { Usage } from './types';
 import { useAuth } from '../store/auth';
@@ -28,3 +29,5 @@ export function useRefreshUsage() {
 export function formatUGX(minor: number, currency = 'UGX') {
   return `${currency} ${minor.toLocaleString('en-US')}`;
 }
+
+export const useUnread = create<{ unread: number; set: (n: number) => void }>((set) => ({ unread: 0, set: (unread) => set({ unread }) }));

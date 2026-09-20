@@ -16,6 +16,10 @@ const STATUS_TEXT: Record<Payment['status'], string> = {
   REFUNDED: 'This payment was refunded.',
 };
 
+function newIdempotencyKey() {
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
 export default function Checkout() {
   const { planCode = '' } = useParams();
   const refreshUsage = useRefreshUsage();
@@ -27,7 +31,7 @@ export default function Checkout() {
   const [instructions, setInstructions] = useState('');
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
-  const [idem] = useState(() => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`);
+  const [idem, setIdem] = useState(newIdempotencyKey);
 
   useEffect(() => {
     api<Plan[]>('/api/plans', { auth: false })
@@ -194,7 +198,7 @@ export default function Checkout() {
                   </Link>
                 )}
                 {['FAILED', 'CANCELLED', 'EXPIRED'].includes(payment.status) && (
-                  <button className="btn-ghost text-xs" onClick={() => setPayment(null)}>
+                  <button className="btn-ghost text-xs" onClick={() => { setPayment(null); setIdem(newIdempotencyKey()); }}>
                     Try again
                   </button>
                 )}

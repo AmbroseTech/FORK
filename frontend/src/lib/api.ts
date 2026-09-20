@@ -76,8 +76,10 @@ export async function api<T>(path: string, opts: { method?: Method; body?: unkno
   const text = await res.text();
   const data: unknown = text ? JSON.parse(text) : null;
   if (!res.ok) {
-    const detail = data && typeof data === 'object' && 'detail' in data ? (data as { detail: unknown }).detail : data;
-    throw new ApiError(res.status, messageFrom(detail, `Request failed (${res.status})`), detail);
+    const obj = data && typeof data === 'object' ? (data as { detail?: unknown; message?: unknown }) : null;
+    const detail = obj && 'detail' in obj ? obj.detail : data;
+    const message = obj && typeof obj.message === 'string' ? obj.message : messageFrom(detail, `Request failed (${res.status})`);
+    throw new ApiError(res.status, message, detail);
   }
   return data as T;
 }

@@ -5,13 +5,23 @@ import { Empty, Page, Spinner } from '../components/ui';
 import { relativeDate } from '../engine/format';
 import { api } from '../lib/api';
 import type { NotificationList } from '../lib/types';
+import { useUnread } from '../lib/ui';
 
 export default function Notifications() {
-  const [data, setData] = useState<NotificationList | null>(null);
-  const load = () => api<NotificationList>('/api/notifications').then(setData).catch(() => setData({ items: [], unread: 0 }));
+  const [data, setRaw] = useState<NotificationList | null>(null);
+  const setUnread = useUnread((s) => s.set);
+  const setData = (n: NotificationList) => {
+    setRaw(n);
+    setUnread(n.unread);
+  };
   useEffect(() => {
-    void load();
-  }, []);
+    api<NotificationList>('/api/notifications')
+      .then((n) => {
+        setRaw(n);
+        setUnread(n.unread);
+      })
+      .catch(() => setRaw({ items: [], unread: 0 }));
+  }, [setUnread]);
 
   const readAll = () => api<NotificationList>('/api/notifications/read-all', { method: 'POST' }).then(setData);
   const read = (id: string) => api<NotificationList>(`/api/notifications/${id}/read`, { method: 'POST' }).then(setData);

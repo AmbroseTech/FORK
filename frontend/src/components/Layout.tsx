@@ -3,10 +3,9 @@ import { useEffect } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
 import type { NotificationList } from '../lib/types';
-import { guestAllowed, useRefreshUsage } from '../lib/ui';
+import { guestAllowed, useRefreshUsage, useUnread } from '../lib/ui';
 import { useAuth } from '../store/auth';
 import { Disclaimer, Logo, ThemeToggle } from './ui';
-import { create } from 'zustand';
 
 const NAV = [
   { to: '/app', label: 'Home', icon: Home, end: true },
@@ -17,7 +16,6 @@ const NAV = [
   { to: '/app/profile', label: 'Profile', icon: User },
 ];
 
-const useUnread = create<{ unread: number; set: (n: number) => void }>((set) => ({ unread: 0, set: (unread) => set({ unread }) }));
 
 export default function AppLayout() {
   const { user, usage, clear, tokens } = useAuth();
