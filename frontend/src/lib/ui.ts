@@ -13,6 +13,10 @@ export function guestAllowed(pathname: string) {
 export function useRefreshUsage() {
   const setUsage = useAuth((s) => s.setUsage);
   return async () => {
+    if (!useAuth.getState().tokens) {
+      setUsage(null);
+      return;
+    }
     try {
       setUsage(await api<Usage>('/api/usage'));
     } catch {
