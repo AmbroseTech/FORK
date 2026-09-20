@@ -145,7 +145,7 @@ export default function ForkDetail() {
                   <span>{w.summary}</span>
                   <span className="font-mono text-xs text-slate-500 dark:text-ink-300">
                     {Object.entries(w.resultScores)
-                      .map(([sid, sc]) => `${d.scenarios.find((s) => s.id === sid)?.letter ?? '?'}:${sc}`)
+                      .map(([key, sc]) => `${d.scenarios.find((s) => s.id === key || s.letter === key)?.letter ?? key}:${sc}`)
                       .join(' ')}
                   </span>
                 </li>

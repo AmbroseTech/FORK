@@ -34,7 +34,7 @@ export default function WhatIf() {
     setErr(null);
     if (authed && savedId) {
       const next = recompute(sim, { ...sim.overrides, ...overrides });
-      const scores = Object.fromEntries(next.scenarios.map((s) => [s.id, s.score]));
+      const scores = Object.fromEntries(next.scenarios.map((s) => [s.letter, s.score]));
       api(`/api/decisions/${savedId}/what-if`, {
         method: 'POST',
         body: { prompt: label, context: sim.input.context, ruleSummary: label, ruleOverrides: overrides, resultScores: scores },
