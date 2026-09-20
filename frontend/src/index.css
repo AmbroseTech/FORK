@@ -1,0 +1,103 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #dfe6ff;
+  --color-brand-300: #a8bbff;
+  --color-brand-400: #7c9cff;
+  --color-brand-500: #5b7cfa;
+  --color-brand-600: #4763e0;
+  --color-brand-700: #384dbb;
+  --color-fork-a: #7c9cff;
+  --color-fork-b: #34d399;
+  --color-fork-c: #f472b6;
+  --color-fork-d: #fbbf24;
+  --color-ink-950: #070a12;
+  --color-ink-900: #0b0f1a;
+  --color-ink-800: #121829;
+  --color-ink-700: #1b2338;
+  --color-ink-600: #283149;
+  --color-ink-300: #8b95b3;
+  --color-ink-100: #e6e9f2;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-[#f5f7fb] text-slate-900 antialiased dark:bg-ink-900 dark:text-ink-100;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  ::selection {
+    @apply bg-brand-500/30;
+  }
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-slate-200/80 bg-white/80 shadow-sm backdrop-blur dark:border-white/10 dark:bg-ink-800/70;
+  }
+  .btn-primary {
+    @apply btn bg-brand-500 text-white shadow-lg shadow-brand-500/25 hover:bg-brand-600 active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply btn border border-slate-200 bg-transparent text-slate-700 hover:bg-slate-100 dark:border-white/10 dark:text-ink-100 dark:hover:bg-white/5;
+  }
+  .btn-danger {
+    @apply btn bg-rose-500/10 text-rose-600 hover:bg-rose-500/20 dark:text-rose-300;
+  }
+  .input {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-400/30 dark:border-white/10 dark:bg-ink-900 dark:text-ink-100 dark:placeholder:text-ink-300/60;
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-semibold tracking-wide text-slate-500 uppercase dark:text-ink-300;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium transition;
+  }
+  .code {
+    @apply font-mono text-[0.8em] text-brand-600 dark:text-brand-300;
+  }
+  .glow {
+    background: radial-gradient(60% 50% at 50% 0%, rgb(91 124 250 / 0.25), transparent 70%);
+  }
+}
+
+@keyframes fork-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.animate-fork-pulse {
+  animation: fork-pulse 1.6s ease-in-out infinite;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  animation: rise 0.45s ease-out both;
+}
