@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>FORK — Don't just make a decision. See where it leads.</title>
+    <meta name="description" content="FORK lets you explore possible futures before you choose one. Simulate a decision, compare scenarios, run what-if experiments and learn from your own decision history." />
+    <meta name="theme-color" content="#0b0f1a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f5f7fb" media="(prefers-color-scheme: light)" />
+    <meta property="og:title" content="FORK — See where your decision leads" />
+    <meta property="og:description" content="Explore possible futures before you choose one." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icon-192.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <script>
+      try {
+        var t = localStorage.getItem('fork.theme');
+        var dark = t ? t.indexOf('"dark"') > -1 || (t.indexOf('"system"') > -1 && matchMedia('(prefers-color-scheme: dark)').matches) : true;
+        document.documentElement.classList.toggle('dark', dark);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
